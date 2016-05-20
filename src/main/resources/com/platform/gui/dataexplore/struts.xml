@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="dataexplore" namespace="/dataexplore" extends="struts-default">
+		
+		<!-- Test Actions -->
+		<action name="toTestDataExplore" class="com.platform.gui.dataexplore.action.TestDataExploreAction" method="toTestDataExplore">
+			<result name="success">test/data_explore.jsp</result>
+			<result name="input">test/data_explore.jsp</result>
+		</action>
+		
+		<action name="toTestDataActions" class="com.platform.gui.dataexplore.action.TestDataExploreAction" method="toTestDataActions">
+			<result name="success">test/data_actions.jsp</result>
+			<result name="input">test/data_actions.jsp</result>
+		</action>
+				
+		<action name="toTestHostTree" class="com.platform.gui.dataexplore.action.TestDataExploreAction" method="toTestHostTree">
+			<result name="success">test/host_tree.jsp</result>
+			<result name="input">test/host_tree.jsp</result>
+		</action>
+
+		<action name="toTestFavoriteTree" class="com.platform.gui.dataexplore.action.TestDataExploreAction" method="toTestFavoriteTree">
+			<result name="success">test/favorite_tree.jsp</result>
+			<result name="input">test/favorite_tree.jsp</result>
+		</action>
+		
+		<action name="toTestFileTable" class="com.platform.gui.dataexplore.action.TestDataExploreAction" method="toTestFileTable">
+			<result name="success">test/file_table.jsp</result>
+			<result name="input">test/file_table.jsp</result>
+		</action>
+		
+		<action name="toTestSubmissions" class="com.platform.gui.dataexplore.action.TestDataExploreAction" method="toTestSubmissions">
+			<result name="success">test/submissions.jsp</result>
+			<result name="input">test/submissions.jsp</result>
+		</action>
+
+		<action name="toTestFormTable" class="com.platform.gui.dataexplore.action.TestDataExploreAction" method="toTestFormTable">
+			<result name="success">test/form_table.jsp</result>
+			<result name="input">test/form_table.jsp</result>
+		</action>
+
+		<action name="toTestInputFileList" class="com.platform.gui.dataexplore.action.TestDataExploreAction" method="toTestInputFileList">
+			<result name="success">test/inuptFile_list.jsp</result>
+			<result name="input">test/inputFile_list.jsp</result>
+		</action>
+		
+		<action name="toTestBreadCrumb" class="com.platform.gui.dataexplore.action.TestDataExploreAction" method="toTestBreadCrumb">
+			<result name="success">test/bread_crumb.jsp</result>
+			<result name="input">test/bread_crumb.jsp</result>
+		</action>
+		<!-- Test Actions -->
+	</package>
+</struts>

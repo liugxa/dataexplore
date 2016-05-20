@@ -1,0 +1,379 @@
+
+/** the common css style **/
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	overflow:hidden;
+}
+
+.myIconButton{
+	position: absolute;
+	right: 0px;
+}
+
+/** over write the claro css style **/
+.claro .dijitButtonNode{
+	transition-duration: 0.3s;
+	transition-property: background-color;
+	border-width:0;
+}
+
+/* the drop down icon style */
+.claro .dijitSelectHover .dijitArrowButton .dijitArrowButtonInner {
+	background-position: -30px 53%;
+}
+
+.claro .dijitSelect .dijitArrowButton .dijitArrowButtonInner {
+	background-position: -30px 53%;
+}
+
+/* the grix background color */
+.claro .gridx {
+	background-color: transparent;
+}
+
+/* the font of dialog's title */
+.claro .dijitDialogTitle {
+	font-weight:bold;
+}
+
+.claro .gridxCell {
+  white-space: nowrap;
+}
+
+
+/** the data explore css style **/
+/* the bread crumb css style */
+.de_layoutContainer{}
+.de_breadCrumb_pane{
+	/*height:5%;*/
+	height: 30px;
+}
+.de_dataActions_pane{
+	/*height:5%;*/
+	height: 30px;
+}
+.de_submissions_pane{
+	height: 30px;
+}
+
+/* the bread crumb pane */
+.de_breadCrumb_title_pane{
+	width: 6%;
+}
+.de_breadCrumb_content_pane{
+	
+}
+.de_breadCrumb_search_pane{
+	width: 30%
+}
+.de_breadCrumb_title{
+	font-size:18px;
+	font-weight:bold;
+	color: #006600;
+	white-space: nowrap;
+}
+
+.de_breadCrumb_container .dijitToolbar{
+	border-bottom-width:0;
+	background-image: none;
+	background-color: transparent;	
+}
+
+.de_breadCrumb_container .dijitButtonText{
+	color: #006600;
+}
+
+.de_breadCrumb_container .dijitButtonText:hover{
+	text-decoration: underline;
+}
+
+/* the file browsing pane */
+.de_tree_pan{
+	width:20%
+}
+.de_fileTable_pane{
+	height: 100%;
+}
+
+.de_fileTable_container{
+	width: 100%;
+	height:100%;
+}
+.de_fileTable_pane .gridx{
+	width: 100%;
+	height: 100%;
+}
+
+/* the submissions panel*/
+.de_submissions_container{
+	height: 100%;
+}
+
+/** the submission panel css style **/
+.sp_layoutContainer {
+	height: 100%;
+}
+
+/* the message style */
+.sp_message_div{
+	border:1px solid #fdc244; 
+	background-color:#ffffea; 
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-weight: bold;
+	color: #036;
+	font-weight:normal;
+	padding:1px 5px;
+}
+
+/** the input files css style **/
+div.dijitAlignLeft div.dijitAlignCenter{
+	background-color: transparent;
+}
+
+.sp_inputFiles_layoutContainer{
+	width: 20%;	
+	padding-left: 8px ;
+	padding-top: 8px;
+	border-right:ebebeb;
+}
+.sp_inputFiles_title{
+	font-weight:bold;
+	font-size:large;
+	color:#006600;
+}
+
+.sp_inputFiles_list_title, .sp_submissionForms_grid_title{
+	color:#757575; 
+	font-weight:bold;
+}
+
+.sp_inputFiles_list{
+	width:100%;
+}
+
+/* the panel style of form table */
+div.dijitAlignCenter{
+	background-color: transparent;
+}
+
+/* the relevance icon */
+.sp_relevance_icon{
+	width:5px;
+	height:12px;
+	position:absolute;
+	border-radius:0px;
+	margin-top:5px;
+	border:1px solid #AAAAAA
+}
+
+.sp_submissionForms_layoutContainer{
+	padding: 10px;
+}
+
+#sp_submissionForms_grid_container_gridX{
+	height: 100%;
+}
+.sp_submissionForms_openBtn .dijitButtonNode{
+	padding:0px 0px 0px 0px;
+}
+
+.sp_submissionForms_openBtn .dijitButtonText {
+	padding:0px 0px 0px 0px;
+	color: #006600;
+}
+
+.sp_submissionForms_openBtn .dijitButtonText:hover{
+	text-decoration: underline;
+}
+
+.sp_submissionForms_submitBtn{
+	vertical-align:top;
+	margin-top:1px !important;
+}
+
+.sp_submissionForms_openBtn{
+	vertical-align: top
+}
+
+/** th summary panel css style **/
+.sp_summary_table{
+	width: 100%;
+	height: 100%;
+}
+.sp_summary_label_1{
+	text-align:center;
+	font-weight:bold;
+	font-size:large;
+	color:#006600;
+}
+.sp_summary_label_2{
+	text-align:right;
+	font-weight:bold;
+	font-size:small;
+	color:#006600;
+}
+
+/** the flow dialog css style **/
+/* the dialog style of flow list */
+.claro .fd_formList_layoutContainer .dijitContentPane{
+	padding:0 8px 8px 3px;
+}
+
+.fd_formList_dialog{
+	width: 800px;
+	height: 450px;
+}
+.fd_formList_layoutContainer{
+	height: 370px;
+}
+
+.fd_formList_grid_container{
+	height: 320px;
+}
+
+.fd_formList_grid_container .gridx{
+	height: 320px;
+}
+
+
+/** the include files css style **/
+.claro .gridxCellWidget .dijitButtonNode{
+	padding:0px 0px 0px 0px;
+}
+
+#ft_includeFiles_gridX{
+	height: 100%;
+}
+
+.if_includeFiles_grid_container{
+	margin-top:10px;
+	height:100%;
+	height: 340px;
+}
+#if_includeFiles_gridX{
+	height:320px;
+}
+
+
+/** the data actions css style **/
+.da_layoutContainer{
+	width:100%;
+	height:100%;
+}
+.de_dialog_copyTo_tree{
+	width: 250px;
+	height: 350px;
+}
+
+.de_dialog_copyTo_tree .dijitTree{
+	height: 350px;
+	overflow: auto;
+}
+
+.de_dialog_moveTo_tree{
+	width: 250px;
+	height: 350px;
+}
+
+.de_dialog_moveTo_tree .dijitTree{
+	height: 350px;
+	overflow: auto;
+}
+
+/* the copy from dialog */
+.de_dialog_copyFrom{
+	width: 800px;
+	height: 600px;
+}
+.de_dialog_copyFrom_layoutContainer{
+	width: 100%;
+	height: 550px;
+}
+.de_dialog_copyFrom_bcbreadCrumb_pane{
+	height:5%;
+}
+.de_dialog_copyFrom_fileBrowsing_pane{
+	width:100%;
+}
+.de_dialog_copyFrom_btn_pane{
+	width:100%;
+}
+
+/* the bread crumb panel of copy from */
+.de_dialog_copyFrom_breadCrumb_layoutContainer{
+	width:100%
+}
+.de_dialog_copyFrom_bcbreadCrumb_title_pane{
+	width: 6%;
+}
+.de_dialog_copyFrom_bcbreadCrumb_content_pane{
+	/*width: 70%;*/
+}
+.de_dialog_copyFrom_bcbreadCrumb_search_pane{
+	width: 30%;
+}
+.de_dialog_copyFrom_title{
+	font-size:18px;
+	font-weight:bold;
+	color: #006600;
+	white-space: nowrap;
+}
+
+.de_dialog_copyFrom_breadCrumb .dijitToolbar{
+	border-bottom-width:0;
+	background-image: none;
+	background-color: transparent;	
+}
+
+.de_dialog_copyFrom_breadCrumb .dijitButtonText{
+	color: #006600;
+}
+
+.de_dialog_copyFrom_breadCrumb .dijitButtonText:hover{
+	text-decoration: underline;
+}
+
+/* the file browsing pane of copy from */
+.de_dialog_copyFrom_fileBrowsing_layoutContainer{
+	
+}
+.de_dialog_copyFrom_fileBrowsing_tree_pane{
+	width:20%;
+}
+.de_dialog_copyFrom_fileBrowsing_grid_pane{
+	width:80%;
+}
+.de_dialog_copyFrom_tree{
+	width:100%;
+	height:100%;
+}
+.de_dialog_copyFrom_tree .dijitTree{
+	width:100%;
+	height:100%;
+}
+.de_dialog_copyFrom_grid{
+	width:100%;
+	height:100%;
+}
+.de_dialog_copyFrom_grid .gridx{
+	width:100%;
+	height:100%;
+}
+
+
+/* the properties dialog */
+.de_dialog_properties{
+	width: 500px;
+	height: 300px;
+}
+
+.de_dialog_properties_table tbody tr td div{
+	margin-left:5px;
+	margin-right:5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
