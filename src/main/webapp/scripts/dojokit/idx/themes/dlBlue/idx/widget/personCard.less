@@ -1,0 +1,72 @@
+/** Licensed Materials - Property of IBM* (C) Copyright IBM Corp. 2010, 2012 All Rights Reserved* US Government Users Restricted Rights - Use, duplication or* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.\*/  @import "../../dijit/variables";  
+
+.@{theme-name} .idxPersonCard {
+    padding: 5px;
+    color: #666;
+}
+.@{theme-name} {
+    .idxPersonCardContainer {
+        border-bottom: 1px solid #ccc;
+        & > div {
+            padding: 2px;
+            margin-left: 137px;
+        }
+        .idxClearFloat {
+            clear:both;
+            height:0px;
+            padding:0px;
+        }
+    }
+    .idxPersonCardPhoto {
+        margin: 0 20px 13px 20px;
+        height: 90px;
+        width: 90px;
+        padding: 3px;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        float: left;
+    }
+    .idxPersonCardFn {
+        font-family: Georgia, Times New Roman, Serif;
+        font-size: 22px;
+        color: #00649d;
+    }
+    .idxPersonCardTitle {
+        font-size: .9em;
+        color: #222;
+    }
+    .idxPersonCardOrg {
+        font-size: .9em;
+    }
+    .idxPersonCardAdr {
+        font-size: .8em;
+    }
+    .idxPersonCardTel {
+        font-size: .8em;
+    }
+    .idxPersonCardEmail {
+        font-size: .9em;
+    }
+    .idxPersonCardSametime {
+        font-size: .9em;
+    }
+}
+.dijitRtl {
+    .@{theme-name} {
+        .idxPersonCardContainer {
+            & > div {
+                margin-left: 0px;
+                margin-right: 137px;
+            }
+        }
+        .idxPersonCardPhoto {
+            float: right;
+        }
+        .idxPersonCard {
+            .awareness {
+                background-position: right center;
+                padding-right: 18px;
+            }
+        }
+    }
+}

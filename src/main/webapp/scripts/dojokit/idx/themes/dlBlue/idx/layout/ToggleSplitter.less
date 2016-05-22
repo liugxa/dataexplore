@@ -1,0 +1,89 @@
+/** Licensed Materials - Property of IBM* (C) Copyright IBM Corp. 2010, 2012 All Rights Reserved* US Government Users Restricted Rights - Use, duplication or* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.\*/  @import "../../dijit/variables";  .@{theme-name} .dijitLayoutContainer .dijitSplitterH {
+    height: 5px;
+    text-align: center;
+}
+.@{theme-name} {
+    .dijitLayoutContainer {
+        .dijitSplitterV {
+            width: 5px;
+            vertical-align: middle;
+            .dojoxToggleSplitterIcon {
+                background-image: url('images/toggleArrowsV.png');
+                background-repeat: no-repeat;
+                vertical-align: middle;
+                width: 5px;
+                height: 47px;
+                left: 0;
+                top: 45%;
+                cursor: pointer;
+            }
+        }
+        .dijitSplitterH {
+            .dojoxToggleSplitterIcon {
+                background-image: url('images/toggleArrowsH.png');
+                background-repeat: no-repeat;
+                width: 47px;
+                height: 5px;
+                cursor: pointer;
+            }
+        }
+    }
+}
+.dj_ie {
+    .@{theme-name} {
+        .dijitLayoutContainer {
+            .dijitSplitterH {
+                .dojoxToggleSplitterIcon {
+                    background-image: url('images/toggleArrowsH8bits.png');
+                }
+            }
+            .dijitSplitterV {
+                .dojoxToggleSplitterIcon {
+                    background-image: url('images/toggleArrowsV8bits.png');
+                }
+            }
+        }
+    }
+}
+.@{theme-name} .dijitSplitterHHover .dojoxToggleSplitterTopIconOpen, .dijitSplitterHActive .dojoxToggleSplitterTopIconOpen,.@{theme-name} .dijitSplitterHHover .dojoxToggleSplitterBottomIconClosed, .dijitSplitterHActive .dojoxToggleSplitterBottomIconClosed {
+    background-position: 0 -15px !important;
+}
+.@{theme-name} .dijitSplitterHHover .dojoxToggleSplitterBottomIconOpen, .dijitSplitterHActive .dojoxToggleSplitterBottomIconOpen,.@{theme-name} .dijitSplitterHHover .dojoxToggleSplitterTopIconClosed, .dijitSplitterHActive .dojoxToggleSplitterTopIconClosed {
+    background-position: 0 -10px !important;
+}
+.@{theme-name} .dojoxToggleSplitterTopIconOpen,.@{theme-name} .dojoxToggleSplitterBottomIconClosed,.@{theme-name} .dojoxToggleSplitter .dojoxToggleSplitterTopIconOpenHover {
+    background-position: 0 -5px !important;
+}
+.@{theme-name} .dojoxToggleSplitterBottomIconOpen,.@{theme-name} .dojoxToggleSplitterTopIconClosed {
+    background-position: 0 0 !important;
+}
+.@{theme-name} .dijitSplitterVHover .dojoxToggleSplitterLeftIconOpen, .dijitSplitterVActive .dojoxToggleSplitterLeftIconOpen,.@{theme-name} .dijitSplitterVHover .dojoxToggleSplitterRightIconClosed, .dijitSplitterVActive .dojoxToggleSplitterRightIconClosed {
+    background-position: -15px 0 !important;
+}
+.@{theme-name} .dijitSplitterVHover .dojoxToggleSplitterRightIconOpen, .dijitSplitterVActive .dojoxToggleSplitterRightIconOpen,.@{theme-name} .dijitSplitterVHover .dojoxToggleSplitterLeftIconClosed, .dijitSplitterVActive .dojoxToggleSplitterLeftIconClosed {
+    background-position: -10px 0 !important;
+}
+.@{theme-name} .dojoxToggleSplitterLeftIconOpen,.@{theme-name} .dojoxToggleSplitterRightIconClosed,.@{theme-name} .dojoxToggleSplitter .dojoxToggleSplitterLeftIconOpenHover,.@{theme-name} .dojoxToggleSplitter .dojoxToggleSplitterRightIconClosedHover {
+    background-position: -5px 0 !important;
+}
+.@{theme-name} .dojoxToggleSplitterRightIconOpen,.@{theme-name} .dojoxToggleSplitterLeftIconClosed,.@{theme-name} .dojoxToggleSplitter .dojoxToggleSplitterRightIconOpenHover {
+    background-position: 0 0 !important;
+}
+.@{theme-name} .dojoxToggleSplitterTop .dojoxToggleSplitterA11y,.@{theme-name} .dojoxToggleSplitterBottom .dojoxToggleSplitterA11y {
+    display: none;
+    font-size: 6px;
+    text-align: center;
+}
+.@{theme-name} .dojoxToggleSplitterRight .dojoxToggleSplitterA11y,.@{theme-name} .dojoxToggleSplitterLeft .dojoxToggleSplitterA11y {
+    display: none;
+    font-size: 8px;
+    position: relative;
+    top: 48%;
+}
+.dijit_a11y {
+    .dojoxToggleSplitter {
+        .dojoxToggleSplitterA11y {
+            display: block;
+        }
+    }
+}
