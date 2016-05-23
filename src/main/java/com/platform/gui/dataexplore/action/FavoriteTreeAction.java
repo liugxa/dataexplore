@@ -24,15 +24,27 @@ public class FavoriteTreeAction extends AbstractActionSupport{
 	}
 	
 	public String doGetFavorites() throws Exception{
+		Properties properties = this.getFavoriteProperties();
+		fileItems = this.getFavorites(properties);
 		return SUCCESS;
 	}
 	
 	public String doAddFavorite() throws Exception{
+		Properties properties = this.getFavoriteProperties();
+		
+		String path = favorite.substring(favorite.indexOf(":") + 1);
+		String value = path.substring(path.lastIndexOf("/") + 1);
+		
+		properties.put(favorite, value);
 		return NONE;
 	}
+	
 	public String doRemoveFavorite() throws Exception{
+		Properties properties = this.getFavoriteProperties();
+		properties.remove(favorite);
 		return NONE;
 	}
+	
 	public List<FileItem> getFavorites(Properties properties) throws Exception{
 		List<FileItem> r = new ArrayList<FileItem>();
 		
@@ -50,6 +62,15 @@ public class FavoriteTreeAction extends AbstractActionSupport{
 			}
 		}
 		return r;
+	}
+	
+	private Properties getFavoriteProperties(){
+		Object obj = this.session.getAttribute("favorite.properties");
+		if(obj == null) {
+			obj = new Properties();
+			this.session.setAttribute("favorite.properties", obj);
+		}
+		return (Properties)obj;
 	}
 
 	public String getFavorite() {

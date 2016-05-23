@@ -20,7 +20,7 @@ define([
 	
 		function createTree(_container, _context, _id){
 			var store = new JsonRest({
-				target: request.appendCsrfTokenToURL(_context.urlContext + "/doGetFavorites.action?rnd=" + (new Date()).getTime()).value,
+				target: _context.urlContext + "/doGetFavorites.action?rnd=" + (new Date()).getTime(),
 				mayHaveChildren: function(object){
 					// see if it has a children property
 					//return "subNodes" in object;
@@ -35,7 +35,7 @@ define([
 					}, onError);
 				},
 				getRoot: function(onItem, onError){
-					var url = request.appendCsrfTokenToURL(_context.urlContext + "/doGetFavoriteRoot.action?rnd=" + (new Date()).getTime()).value
+					var url = _context.urlContext + "/doGetFavoriteRoot.action?rnd=" + (new Date()).getTime();
 					var rStore = new JsonRest({target: url});
 					// get the root object, we will do a get() and callback the result
 					return rStore.query().then(onItem, onError);
@@ -100,13 +100,13 @@ define([
 			},
 			add: function(_favorite){
 				var store = new JsonRest({
-					target: request.appendCsrfTokenToURL(this.context.urlContext + "/doAddFavorite.action?rnd=" + (new Date()).getTime()).value,
+					target: this.context.urlContext + "/doAddFavorite.action?rnd=" + (new Date()).getTime(),
 				});
 				store.query({"favorite" : _favorite});
 			},
 			remove: function(_favorite){
 				var store = new JsonRest({
-					target: request.appendCsrfTokenToURL(this.context.urlContext + "/doRemoveFavorite.action?rnd=" + (new Date()).getTime()).value,
+					target: this.context.urlContext + "/doRemoveFavorite.action?rnd=" + (new Date()).getTime(),
 				});
 				store.query({"favorite" : _favorite});
 			},

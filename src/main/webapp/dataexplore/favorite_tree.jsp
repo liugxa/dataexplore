@@ -1,14 +1,13 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html >
 <head>
-	<%@include file="/pac/dataexplore/includes/include-styles.jsp"%>
-	<%@include file="/pac/dataexplore/includes/include-dojo-scripts.jsp"%>
-	<%@include file="/pac/dataexplore/includes/include-scripts.jsp"%>
-	<%@include file="/framework/messages.jsp" %>
+	<c:import url="/dataexplore/includes/include-styles.jsp"/>
+	<c:import url="/dataexplore/includes/include-dojo.jsp"/>
+	<c:import url="/dataexplore/includes/include-scripts.jsp"/>
 </head>
 
 <body class='claro myTheme'>
-
 	<button id="reloadFavoriteTreePanelBtn" type="button">Reload favorite tree</button>
 	<div id="favoriteTreePanelContainer"></div>
 
@@ -36,7 +35,7 @@
 			"dojo/domReady!"
 		],
 		function(Button, TextBox, FavoriteTreePanel, registry, dom, topic, request){
-			var urlContext = "<c:url value='/pac/dataexplore'/>";
+			var urlContext = "<c:url value='/dataexplore'/>";
 			
 			request.get(urlContext + "/doGetDataExploreContext.action?rnd=" + (new Date()).getTime(),{
 				handleAs: "json",
@@ -61,7 +60,7 @@
 
 				var favoriteTextBox = new TextBox({
 					name: "favoriteName",
-					value: "xa8603:/home/gliu/build",
+					value: context.host + ":" + context.path,
 					placeHolder: "type in your favorite"
 				}, "favoriteTextBox");
 
