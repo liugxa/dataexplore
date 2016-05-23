@@ -19,9 +19,8 @@ define([
 	], function(dom, domClass, domAttr,lang, cfg, declare, topic, request, 
 		Memory, ObjectStoreModel, JsonRest, Tree, ContentPane){
 
-		function createTree(_container, _context, _id, _host){
+		function createTree(_container, _context, _id){
 			var url = _context.urlContext + "/doGetHostFiles.action?rnd=" + (new Date()).getTime();
-			if(_host != undefined) url = _context.urlContext + "/doGetHostFiles.action?rnd=" + (new Date()).getTime() + "&host=" + _host;
 			var store = new JsonRest({
 				target: url,
 				mayHaveChildren: function(object){
@@ -81,13 +80,12 @@ define([
 
 		//var tree;
 		return declare('dataexplore.HostTreePanel', null, {
-			constructor: function (_container, _context, _id, _host) {
+			constructor: function (_container, _context, _id) {
 				this.container = (_container != null) ? _container : "fb_hostTree_container";
 				this.context = _context; this.id = _id;
-				this.host = _host;
 			},
 			startup: function() {
-				this.tree = createTree(this.container, this.context, this.id, this.host);
+				this.tree = createTree(this.container, this.context, this.id);
 				this.tree.placeAt(this.container);
 				this.tree.startup();
 			},
@@ -131,6 +129,6 @@ define([
 			expandPath: function(_path){
 				var node = this.tree.getNodesByItem(_path)[0];
 				this.tree._expandNode(node);
-			},
+			}
 		});
 	});

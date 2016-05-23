@@ -9,10 +9,12 @@
 
 <body class='claro myTheme'>
 	<button id="reloadHostTreePanelBtn" type="button">Reload host tree</button>
-	<button id="expandHostTreePanelBtn" type="button">Expand host tree</button>
 	<button id="clearFocusHostTreePanelBtn" type="button">Clear focus</button>
 	<button id="isShowBtn" type="button">Show/Hidden</button>
-
+	
+	<input id="expandHostTreeTextBox" />
+	<button id="expandHostTreePanelBtn" type="button">Expand host tree</button>
+	
 	<div id="hostTreePanelContainer"></div>
 	<style type="text/css">
 		#hostTreePanelContainer{
@@ -46,7 +48,7 @@
 			});
 
 			function main(context){
-				var hostTreePanel  = new HostTreePanel("hostTreePanelContainer", context, "xa8603.eng.platformlab.ibm.com");
+				var hostTreePanel  = new HostTreePanel("hostTreePanelContainer", context, "hostTree", "xa8603");
 				hostTreePanel.startup();
 
 				//test the host tree panel
@@ -58,14 +60,16 @@
 
 				var expandHostTreePanelBtn = new Button({
 					onClick: function(){
-						hostTreePanel.expandPath("xa8603.eng.platformlab.ibm.com:/");
+						var textValue =  expandHostTreeTextBox.value;
+						hostTreePanel.expandPath(textValue);
 					}
 				}, "expandHostTreePanelBtn");
 
 
 				var clearFocusHostTreePanelBtn = new Button({
 					onClick: function(){
-						hostTreePanel.clearFocus();
+						hostTreePanel.
+						blur();
 					}
 				}, "clearFocusHostTreePanelBtn");
 
@@ -80,35 +84,8 @@
 					}
 				}, "isShowBtn");
 				
-				function showMessage(_message){
-					var dialog = new Dialog({
-						title: "Message",
-						style: "width:300px;height:100px",
-						content: _message,
-						onHide: function(){this.destroyRecursive(false);}
-					});
-					dialog.show();
-				}
 				topic.subscribe(hostTreePanel.getEventPrefix() + "@event.item.click", function (item){
 					console.log("get the host tree item click event!" + item);
-					
-					var host = item.substring(0, item.indexOf(':'));
-					var path = item.substring(item.indexOf(':') + 1);
-
-					var postData = "host=" + host + "&path=" + path;
-					request.post(urlContext + "/doHasPermission.action?rnd=" + (new Date()).getTime(),{
-						data: postData,
-						handleAs: "json",
-					}).then(function(data){
-						if(data != true){
-							showMessage(data);
-						}
-					}, function(err){
-						// handle an error condition
-					}, function(evt){
-						// handle a progress event
-					});
-					console.log(item);
 				});
 			};
 		});

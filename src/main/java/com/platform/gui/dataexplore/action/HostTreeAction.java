@@ -12,8 +12,6 @@ public class HostTreeAction extends AbstractActionSupport{
 
 	private String id;
 	
-	private String host;
-	
 	private FileItem fileItem;
 	
 	private List<FileItem> fileItems;
@@ -43,14 +41,6 @@ public class HostTreeAction extends AbstractActionSupport{
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
 	}
 
 	public FileItem getFileItem() {
