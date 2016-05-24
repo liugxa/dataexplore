@@ -45,6 +45,18 @@
 		<action name="doRemoveFavorite" class="com.platform.gui.dataexplore.action.FavoriteTreeAction" method="doRemoveFavorite"/>
 		
 		
+		<!-- FileTableAction: the include file actions -->
+		<action name="toFileTable" class="com.platform.gui.dataexplore.action.FileTableAction" method="toFileTable">
+			<result name="success">layouts/file_table.jsp</result>
+			<result name="input">layouts/file_table.jsp</result>
+		</action>
+		
+		<action name="doGetTableFiles" class="com.platform.gui.dataexplore.action.FileTableAction" method="doGetTableFiles">
+			<result type="json" name="success">
+				<param name="root">fileItems</param>
+			</result>
+		</action>
+		
 		<!-- InputFilesAction: input file actions -->
 		<action name="doGetInputFile" class="com.platform.gui.dataexplore.action.InputFilesAction" method="doGetInputFile">
 			<result type="json">
@@ -60,16 +72,5 @@
 		<action name="doRemoveInputFile" class="com.platform.gui.dataexplore.action.InputFilesAction" method="doRemoveInputFile"/>
 		
 		
-		<!-- IncludeFilesAction: the include file actions -->
-		<action name="toIncludeFiles" class="com.platform.gui.dataexplore.action.IncludeFilesAction" method="toIncludeFiles">
-			<result name="success">layouts/include_files.jsp</result>
-			<result name="input">layouts/include_files.jsp</result>
-		</action>
-		
-		<action name="doGetIncludeFiles" class="com.platform.gui.dataexplore.action.IncludeFilesAction" method="doGetIncludeFiles">
-			<result type="json" name="success">
-				<param name="root">includeFiles</param>
-			</result>
-		</action>
 	</package>
 </struts>

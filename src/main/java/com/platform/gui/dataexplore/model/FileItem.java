@@ -1,6 +1,6 @@
 package com.platform.gui.dataexplore.model;
 
-import java.util.List;
+import java.util.Date;
 
 public class FileItem{
 	
@@ -8,16 +8,27 @@ public class FileItem{
 	
 	private String name;
 	
-	private Boolean hasItems;
+	// f - file; d - directory; s - symbol link
+	// h - host;
+	private String type;
 	
-	private List<FileItem> fileItems;
+	private String host;
+	
+	private String path;
+	
+	private String size;
+	
+	private String owner;
+	
+	private String permission;
+	
+	private Date modifyTime;
 	
 	public FileItem(){}
 	
 	public FileItem(String id, String name){
 		this.id = id;
 		this.name = name;
-		this.hasItems = true;
 	}
 	
 	public String getId() {
@@ -36,19 +47,59 @@ public class FileItem{
 		this.name = name;
 	}
 
-	public Boolean getHasItems() {
-		return hasItems;
+	public String getType() {
+		return type;
 	}
 
-	public void setHasItems(Boolean hasItems) {
-		this.hasItems = hasItems;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public List<FileItem> getFileItems() {
-		return fileItems;
+	public String getHost() {
+		return host;
 	}
 
-	public void setFileItems(List<FileItem> fileItems) {
-		this.fileItems = fileItems;
+	public void setHost(String host) {
+		this.host = host;
+	}
+	
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
+	public String getPermission() {
+		return permission;
+	}
+
+	public void setPermission(String permission) {
+		this.permission = permission;
+	}
+
+	public Date getModifyTime() {
+		return modifyTime;
+	}
+
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
 	}
 }

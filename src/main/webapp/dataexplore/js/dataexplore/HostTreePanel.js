@@ -26,7 +26,7 @@ define([
 				mayHaveChildren: function(object){
 					// see if it has a children property
 					//return "subNodes" in object;
-					return object.hasItems;
+					return (object.type == "f") ? false : true;
 				},
 				getChildren: function(object, onComplete, onError){
 					// retrieve the full copy of the object

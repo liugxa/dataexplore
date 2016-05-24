@@ -56,8 +56,7 @@ public class FavoriteTreeAction extends AbstractActionSupport{
 				String value = properties.getProperty(key);
 				
 				FileItem item = new FileItem(key, value);
-				item.setHasItems(false);
-				
+				item.setType("f");
 				r.add(item);
 			}
 		}

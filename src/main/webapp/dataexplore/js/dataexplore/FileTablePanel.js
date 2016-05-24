@@ -40,51 +40,46 @@ define([
 		Cache, Grid, Async, IndirectSelect, Row, RowHeader, VirtualVScroller,Sort,ColumnResizer,HiddenColumns,CellWidget,Focus,
 		Button, Dialog, ConfirmDialog, ContentPane,registry, topic) {
 		
-		function _getTarget(_context, _host, _path, _filters){
-			var params = "host=" + _host + "&path=" + _path;
-			if(_filters != undefined && _filters != "") params = "host=" + _host + "&path=" + _path + "&fileName=" + _filters.fileName;
-			var target = request.appendCsrfTokenToURL(_context.urlContext + "/doGetIncludeFiles.action?rnd=" + (new Date()).getTime() + "&" + params).value;
+		function _getTarget(_this){
+			var params = "host=" + _this.host + "&path=" + _this.path;
+			if(_this.filters) params = "host=" + _this.host + "&path=" + _this.path + "&fileName=" + _this.filters.fileName;
+			
+			var target = _this.context.urlContext + "/doGetTableFiles.action?rnd=" + (new Date()).getTime() + "&" + params;
 			return target;
 		}
 
-		function _refresh(_context, _grid, _host, _path, _filters){
-			var target = _getTarget(_context, _host, _path, _filters);
+		function _refresh(_this){
+			var target = _getTarget(_this);
 			var store = new JsonRest({
 				target: target,
 				sortParam: "sortBy",
 			});
 			
-			if (null != _filters && "" != _filters && "" != _filters.fileName) {
-				_grid.hiddenColumns.add("type");
-				_grid.hiddenColumns.remove("path");
-			} else {
-				_grid.hiddenColumns.add("path");
-				_grid.hiddenColumns.remove("type");
-			}
-			_grid.model.clearCache();
-			_grid.setStore(store);
-			_grid.body.refresh();
+			_this.grid.model.clearCache();
+			_this.grid.setStore(store);
+			_this.grid.body.refresh();
 		}
 
-		function createGrid(_container, _context, _id, _host, _path, _filters, _decorateName){
-			var target = _getTarget(_context, _host, _path, _filters);
+		function createGrid(_this){
+			var target = _getTarget(_this);
 			var store = new JsonRest({
 				target: target,
 				sortParam: "sortBy",
 			});
 			
 			var structure = [
-				{ id: 'name', field: 'name', name: Platform.messages['pac.dataexplore.submitjobs.if.grid.name'], width: '250px', widgetsInCell: true, decorator: nameDecorator, setCellValue: nameCellValue},
-				{ id: 'type', field: 'type', name: Platform.messages['pac.dataexplore.submitjobs.if.grid.type'], width: '80px', decorator: typeDecorator},
+				{ id: 'name', field: 'name', name: 'Name', width: '250px', widgetsInCell: true, decorator: nameDecorator, setCellValue: nameCellValue},
+				{ id: 'type', field: 'type', name: 'Type', width: '80px', decorator: typeDecorator},
+				{ id: 'host', field: 'host', name: 'Host', width: '140px'},
 				{ id: 'path', field: 'path', name: 'Location', width: '120px'},
-				{ id: 'size', field: 'size', name: Platform.messages['pac.dataexplore.submitjobs.if.grid.size'], width: '80px', decorator: sizeDecorator},
-				{ id: 'owner', field: 'owner', name: Platform.messages['pac.dataexplore.submitjobs.if.grid.owner'], width: '80px', decorator: ownerDecorator},
-				{ id: 'permission', field: 'permission', name: Platform.messages['pac.dataexplore.submitjobs.if.grid.permission'], width: '80px'},
-				{ id: 'modifyTimeStr', field: 'modifyTimeStr', name: Platform.messages['pac.dataexplore.submitjobs.if.grid.modify.time'], width: '140px'},	
+				{ id: 'size', field: 'size', name: 'Size', width: '80px', decorator: sizeDecorator},
+				{ id: 'owner', field: 'owner', name: 'Owner', width: '80px', decorator: ownerDecorator},
+				{ id: 'permission', field: 'permission', name: 'Permission', width: '80px'},
+				{ id: 'modifyTime', field: 'modifyTime', name: 'ModifyTime', width: '140px'},
 			];
 
 			var grid = new Grid({
-				id: (_container + '_gridX'),
+				id: (_this.container + '_gridX'),
 				cacheClass: Async,
 				store: store,
 				structure: structure,
@@ -149,12 +144,11 @@ define([
 				this.openBtn.set("iconClass", iconClass);
 				this.openBtn.set("onClick", function(){
 					//take the file table to the new path
-					//console.log("rowData.absolutePath=" + rowData.absolutePath);
-					topic.publish(grid.id + "@event.item.click", _id, rowData);
+					topic.publish(grid.id + "@event.item.click", _this.id, rowData);
 				});
 
 				//mark as input file
-				this.addBtn.set("label", Platform.messages["pac.dataexplore.submitjobs.if.button.add"]);
+				this.addBtn.set("label", "Add");
 				this.addBtn.set("class", "inputFileHollowIcon");
 				this.addBtn.set("style", "display:none");
 				this.addBtn.set("onClick", function(){
@@ -163,14 +157,14 @@ define([
 					var btnClass = widget.addBtn.get("class");
 					if(btnClass != "inputFileSolidIcon"){
 						widget.addBtn.set("class", "inputFileSolidIcon");
-						widget.addBtn.set("label", Platform.messages["pac.dataexplore.submitjobs.if.button.input"]);
-						topic.publish(grid.id + "@event.item.mark.file", _id, rowData);
+						widget.addBtn.set("label", "Input");
+						topic.publish(grid.id + "@event.item.mark.file", _this.id, rowData);
 					}
 					/* in this release, the "Job Input" button is un-clickable.
 					else{
 						widget.addBtn.set("class", "inputFileHollowIcon");
 						widget.addBtn.set("label", "Add to job");
-						topic.publish(grid.id + "@event.item.unmark.file", _id, rowData);
+						topic.publish(grid.id + "@event.item.unmark.file", _this.id, rowData);
 					}
 					*/
 				});
@@ -178,7 +172,7 @@ define([
 				//if the file has been marked, show it
 				if(rowData.inputFile == true){
 					widget.addBtn.set("class", "inputFileSolidIcon");
-					widget.addBtn.set("label", Platform.messages["pac.dataexplore.submitjobs.if.button.input"]);
+					widget.addBtn.set("label", "Input");
 					widget.addBtn.set("style", "display:block");
 				}
 
@@ -192,10 +186,10 @@ define([
 						var iconClass = widget.favBtn.get("iconClass");
 						if(iconClass != "favoriteSolidIcon"){
 							widget.favBtn.set("iconClass", "favoriteSolidIcon");
-							topic.publish(grid.id + "@event.item.mark.favorite", _id, rowData);
+							topic.publish(grid.id + "@event.item.mark.favorite", _this.id, rowData);
 						}else{
 							widget.favBtn.set("iconClass", "favoriteHollowIcon");
-							topic.publish(grid.id + "@event.item.unmark.favorite", _id, rowData);
+							topic.publish(grid.id + "@event.item.unmark.favorite", _this.id, rowData);
 						}
 					});
 
@@ -207,16 +201,15 @@ define([
 			}
 			
 			function typeDecorator(cellData, rowId, rowIndex){
-				var s = Platform.messages["pac.dataexplore.submitjobs.if.grid.type.file"];
-				if(cellData != null && cellData != 'f') s = Platform.messages["pac.dataexplore.submitjobs.if.grid.type.directory"];
+				var s = "file";
+				if(cellData != null && cellData != 'f') s = "directory";
 				return s;
 			}
 
 			function sizeDecorator(cellData, rowId, rowIndex){
-				var rowData = grid.row(rowId).rawData();
 				var s = "-";
-				
-				if(cellData != -1) s = rowData.sizeExp;
+				var rowData = grid.row(rowId).rawData();
+				if(cellData != -1) s = rowData.size;
 				return s;
 			}
 
@@ -226,7 +219,7 @@ define([
 				return s;
 			}
 
-			if(_decorateName == true){
+			if(_this.decorateName == true){
 				grid.connect(grid, "onRowMouseOver", function(evt){
 					var row = grid.row(evt.rowId);
 					if(row != null){
@@ -269,14 +262,10 @@ define([
 				});
 			}
 			grid.connect(grid.select.row, "onSelectionChange", function(newSelects, oldSelects){
-				topic.publish(grid.id + "@event.row.selected", _id, newSelects);
+				topic.publish(grid.id + "@event.row.selected", _this.id, newSelects);
 			});
-			/*
-			grid.connect(grid.select.row, "onDeselected", function(row, rowId){
-				topic.publish(grid.id + "@event.row.selected", _id, rowId);
-			});
-			*/
-			grid.hiddenColumns.add("path");
+			
+			grid.hiddenColumns.add('host');
 			return grid;
 		}
 
@@ -291,7 +280,7 @@ define([
 				this.decorateName = (_decorateName != undefined) ? _decorateName : false;
 			},
 			startup: function(){
-				this.grid = createGrid(this.container, this.context, this.id, this.host, this.path, this.filters, this.decorateName);
+				this.grid = createGrid(this);
 				this.grid.placeAt(this.container);
 				this.grid.startup();
 			},
@@ -327,7 +316,7 @@ define([
 			},
 			refresh: function(_host, _path, _filters){
 				this.host = _host; this.path = _path; this.filters = _filters;
-				_refresh(this.context, this.grid, _host, _path, _filters);
+				_refresh(this);
 			},
 			getHost: function(){
 				return this.host;
