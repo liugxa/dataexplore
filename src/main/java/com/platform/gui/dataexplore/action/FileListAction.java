@@ -39,8 +39,12 @@ public class FileListAction extends AbstractActionSupport{
 		return NONE;
 	}
 	
+	public String toIncludeFiles() throws Exception{
+		return SUCCESS;
+	}
+	
 	public String doGetIncludeFiles() throws Exception{
-		if(fileItem != null) fileItems = FileUtil.findItems(fileItem.getHost(), fileItem.getLocation());
+		if(fileItem != null) fileItems = FileUtil.findItems(fileItem.getHost(), fileItem.getPath());
 		return SUCCESS;
 	}
 	

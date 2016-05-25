@@ -123,7 +123,7 @@ define([
 				//if the file type is the "deck/folder", there shouuld show two <tr>. 
 				//one of the lays is to showing the words - "Includes xxx files"/"Contains xxx files".
 				if(item.type != "f" && item.type != "file"){
-					var params = {"fileItem.host": item.host, "fileItem.path": item.path};
+					var params = _getParameters(item);
 					request.post(_this.context.urlContext + "/doGetIncludeFiles.action?rnd=" + (new Date()).getTime(),{
 							data: params,
 							handleAs: "json",
@@ -176,13 +176,18 @@ define([
 			});
 			return source;
 		}
-
+		
+		function _getParameters(_file){
+			var params = "fileItem.host=" + _file.host + "&" + "fileItem.type=" + _file.type + "&" + 
+				"fileItem.path=" + _file.path + "&" + "fileItem.name=" + _file.name + "&" + 
+				"fileItem.location=" + _file.location;	
+			return params;
+		}
+		
 		function _add(_this, _file){
 			//save the input file into properties file
 			var url = _this.context.urlContext + "/doAddFileItem.action?rnd=" + (new Date()).getTime();
-			var postData = "fileItem.host=" + _file.host + "&" + "fileItem.type=" + _file.type + "&" + 
-							 "fileItem.path=" + _file.path + "&" + "fileItem.name=" + _file.name + "&" + 
-							 "fileItem.location=" + _file.location;
+			var postData = _getParameters(_file);
 			request.post(url, {
 				data : postData
 			}).then(function(data){
@@ -199,9 +204,7 @@ define([
 		function _remove(_this, _file){
 			//remove the item from properties file
 			var url = _this.context.urlContext + "/doRemoveFileItem.action?rnd=" + (new Date()).getTime();
-			var postData = "fileItem.host=" + _file.host + "&" + "fileItem.type=" + _file.type + "&" + 
-							 "fileItem.path=" + _file.path + "&" + "fileItem.name=" + _file.name + "&" + 
-							 "fileItem.location=" + _file.location;
+			var postData = _getParameters(_file);
 			request.post(url, {
 				data : postData
 				}).then(function(data){

@@ -67,6 +67,15 @@
 		<action name="doAddFileItem" class="com.platform.gui.dataexplore.action.FileListAction" method="doAddFileItem"/>
 		<action name="doRemoveFileItem" class="com.platform.gui.dataexplore.action.FileListAction" method="doRemoveFileItem"/>
 		
+		<action name="toIncludeFiles" class="com.platform.gui.dataexplore.action.FileListAction" method="toIncludeFiles">
+			<result name="success">layouts/file_table.jsp</result>
+			<result name="input">layouts/file_table.jsp</result>
+		</action>
 		
+		<action name="doGetIncludeFiles" class="com.platform.gui.dataexplore.action.FileListAction" method="doGetIncludeFiles">
+			<result type="json" name="success">
+				<param name="root">fileItems</param>
+			</result>
+		</action>		
 	</package>
 </struts>

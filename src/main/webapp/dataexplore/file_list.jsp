@@ -10,15 +10,15 @@
 <body class='claro myTheme'>
 	<button id="addFileBtn" type="button" >Add File</button>
 	<button id="delFileBtn" type="button" >Delete File</button>
+	<button id="addFilesBtn" type="button" >Add Multi Files</button>
+	<button id="delFilesBtn" type="button" >Delete All Files</button>
+	
 	<button id="getFilesBtn" type="button" >Get Files</button>
-
 	<button id="reloadBtn" type="button" >Reload</button>
 	<button id="isShowBtn" type="button">Show/Hidden</button>
-	<!--
-	<button id="addFilesBtn" type="button" >Add New Files</button>
-	<button id="delFilesBtn" type="button" >Delete All Files</button>
-	-->
+	
 
+	
 	<div id="fileListPanelContainer">
 		<table id="fileListPanelTable"></table>
 	</div>
@@ -56,32 +56,8 @@
 			function main(context){
 				var fileListPanel = new FileListPanel("fileListPanelTable", context, "fileList");
 				fileListPanel.startup();
-
-				var files = [
-					//another LSF server host
-					//{name: "source.xad8603",	type: "file", host: "pac-2.eng.platformlab.ibm.com", path: "/tmp/gliu"},
-					//{name: ".bashrc",	type: "deck", host: "pac-2.eng.platformlab.ibm.com", path: "/tmp/gliu"},
-					//{name: "bin",		type: "folder", host: "pac-2.eng.platformlab.ibm.com", path: "/tmp/gliu"},
-					
-					//long file name
-					//{name: "thefoxcatchadogthefoxcatchadog.xad8603",	type: "file", host: "pac-1.eng.platformlab.ibm.com", path: "/home/gliu"},
-
-					//include files
-					//{name: "backup",	type: "folder", host: "pac-1.eng.platformlab.ibm.com", path: "/home/gliu"},
-
-					//generic
-					{name: "License.txt", type: "f", host: "xa8603", path: "/home/gliu/backup/application/generic"},
-					{name: "Benchmark.def", type: "f", host: "xa8603", path: "/home/gliu/backup/application/generic"},
-					{name: ".pulse", type: "d", host: "xa8603", path: "/home/gliu/backup/application/generic"},
-
-					//FLUENT
-					//{name: "fluent-test.cas.gz",	type: "file", host: "pac-1.eng.platformlab.ibm.com", path: "/home/gliu/backup/application/fluent"},
-					//{name: "fluent-test.jou",	type: "file", host: "pac-1.eng.platformlab.ibm.com", path: "/home/gliu/backup/application/fluent"},
-					//{name: "fluent-test.txt",	type: "file", host: "pac-1.eng.platformlab.ibm.com", path: "/home/gliu/backup/application/fluent"},
-				];
 				
 				//add/remove/get single file
-				
 				var addFileBtn = new Button({
 					onClick: function(){
 						var file = {name: "License.txt", type: "f", host: "xa8603", path: "c:\\home\\gliu\\application\\dataexplore", location: "c:\\home\\gliu\\application\\dataexplore\\License.txt"};
@@ -103,9 +79,16 @@
 				}, "reloadBtn");
 
 				//add/remove/get multi files
-				/*
 				var addFilesBtn = new Button({
 					onClick: function(){
+						var files = [
+							//normal file
+							{name: "License.txt", type: "f", host: "xa8603", path: "c:\\home\\gliu\\application\\dataexplore", location: "c:\\home\\gliu\\application\\dataexplore\\License.txt"},
+							
+							//include files
+							{name: "backup", type: "d", host: "xa8603", path: "c:\\", location: "c:\\backup"},
+						];						
+						
 						fileListPanel.addFiles(files);
 					}
 				}, "addFilesBtn");
@@ -115,7 +98,7 @@
 						fileListPanel.deleteAll();
 					}
 				}, "delFilesBtn");
-				*/
+				
 				var getFilesBtn = new Button({
 					onClick: function(){
 						var r = fileListPanel.getFiles();

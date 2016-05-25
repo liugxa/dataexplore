@@ -32,9 +32,10 @@ define([
 			_grid.body.refresh();
 		}
 
-		function sendRequest(_context, _grid, _data){
-			request.post(_context.urlContext + "/doGetIncludeFiles.action?rnd=" + (new Date()).getTime(),{
-					data: _data,
+		function sendRequest(_this, _grid){
+			var params = "fileItem.host=" + _this.host + "&fileItem.path=" + _this.path;
+			request.post(_this.context.urlContext + "/doGetIncludeFiles.action?rnd=" + (new Date()).getTime(),{
+					data: params,
 					handleAs: "json",
 				}).then(function(data){
 					// do something with handled data
@@ -48,19 +49,19 @@ define([
 			});
 		}
 
-		function initElements(_context, _grid){
+		function initElements(_this, _grid){
 			_grid.placeAt('if_includeFiles_grid_container');
 			_grid.startup();
 		}
 
-		function createDialog(_context, _host, _path){
+		function createDialog(_this){
 			var structure = [
-				{ id: 'name', field: 'name', name: Platform.messages['pac.dataexplore.submitjobs.if.grid.name']},
-				{ id: 'size', field: 'size', name: Platform.messages['pac.dataexplore.submitjobs.if.grid.size'], decorator: sizeDecorator},
-				{ id: 'modifyTimeStr', field: 'modifyTimeStr', name: Platform.messages['pac.dataexplore.submitjobs.if.grid.modify.time']},	
-				{ id: 'permission', field: 'permission', name: Platform.messages['pac.dataexplore.submitjobs.if.grid.permission']},
-				{ id: 'group', field: 'group', name: Platform.messages['pac.dataexplore.submitjobs.if.grid.group']},
-				{ id: 'owner', field: 'owner', name: Platform.messages['pac.dataexplore.submitjobs.if.grid.owner'], decorator: ownerDecorator},
+				{ id: 'name', field: 'name', name: "Name"},
+				{ id: 'size', field: 'size', name: 'Size', decorator: sizeDecorator},
+				{ id: 'modifyTime', field: 'modifyTime', name: 'ModifyTime'},	
+				{ id: 'permission', field: 'permission', name: 'Permission'},
+				{ id: 'group', field: 'group', name: 'Group'},
+				{ id: 'owner', field: 'owner', name: 'Owner', decorator: ownerDecorator},
 			];
 
 			function ownerDecorator(cellData, rowId, rowIndex){
@@ -70,10 +71,9 @@ define([
 			}
 			
 			function sizeDecorator(cellData, rowId, rowIndex){
-				var rowData = grid.row(rowId).rawData();
 				var s = "-";
-				
-				if(cellData != -1) s = rowData.sizeExp;
+				var rowData = grid.row(rowId).rawData();
+				if(cellData != -1) s = rowData.size;
 				return s;
 			}
 
@@ -95,24 +95,21 @@ define([
 				]
 			});
 
-			var url = _context.urlContext + "/toIncludeFiles.action?rnd=" + (new Date()).getTime();
-			url = request.appendCsrfTokenToURL(url).value;
+			var url = _this.context.urlContext + "/toIncludeFiles.action?rnd=" + (new Date()).getTime();
 			var content = new ContentPane({
 				href: url,
 				onHide: function(){this.destroyRecursive(false);},
 				onDownloadEnd: function () {
 					//initialize elements
-					initElements(_context, grid);
-
-					//send request to get dat
-					var data = {"host": _host, "path": _path};
-					sendRequest(_context, grid, data);
-				},
-				onLoad: function(data){/**console.log("Get the data:" + data);**/}
+					initElements(_this, grid);
+					
+					//send request to get data					
+					sendRequest(_this, grid);
+				}
 			});
 
 			var dialog = new Dialog({
-				title: Platform.messages['pac.dataexplore.submitjobs.if.title.view'],
+				title: 'Contained Files',
 				style: "width:800px;height:400px",
 				content: content,
 				closeButtonLabel: "Close",
@@ -127,7 +124,7 @@ define([
 				this.host = _host; this.path = _path;
 			},
 			show: function (){
-				this.dialog = createDialog(this.context, this.host, this.path);
+				this.dialog = createDialog(this);
 				this.dialog.show();
 			}
 		});
