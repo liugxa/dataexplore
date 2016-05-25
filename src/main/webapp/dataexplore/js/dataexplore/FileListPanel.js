@@ -39,12 +39,12 @@ define([
 		ObjectStore, Cache, Grid, SingleSort, VScroller, Async, Button, Dialog, ConfirmDialog, 
 		ContentPane, Source, registry,  topic, on, stringUtil, domConstruct, JSON, IncludeFileListDialog) {
 	
-		function _addFiles(_source, _container, _id, _files){
-			_source.insertNodes(true, _files, true, null);
-			//_source.forInItems(function(item, id, map){
+		function _addFiles(_this, _files){
+			_this.source.insertNodes(true, _files, true, null);
+			//_this.source.forInItems(function(item, id, map){
 			//	domClass.add(id, item.type[0]);
 			//});
-			_source.selectNone();
+			_this.source.selectNone();
 		}
 		
 		function _getFiles(_source){
@@ -56,7 +56,6 @@ define([
 		}
 
 		function _transfer(_jsonData){
-			//{name: "fluent-test.cas.gz",	type: "file", host: "pac-1.eng.platformlab.ibm.com", path: "/home/gliu/backup/fluent"}
 			var r = [];
 			for(var i=0;i<_jsonData.length;i++){
 				var obj = {};
@@ -69,9 +68,10 @@ define([
 			return r;
 		}
 
-		function createSource(_container, _context, _id){
-			var source  = new Source(_container, {creator: catalogNodeCreator});
-
+		function createSource(_this){
+			var source  = new Source(_this.container, {creator: catalogNodeCreator});
+			_this.source = source;
+			
 			function catalogNodeCreator(item, hint){
 				//file image icon
 				//if the file is deck or folder, showing the "include files" icon
@@ -88,13 +88,11 @@ define([
 				var tr = domConstruct.create("tr", {}, tr_div);
 
 				//image td
-				var imageHTML = "<image src='" + _context.urlContext + "/images/" + imageIcon + "'/>";
+				var imageHTML = "<image src='" + _this.context.urlContext + "/images/" + imageIcon + "'/>";
 				var imageTd = domConstruct.create("td", {innerHTML: imageHTML}, tr);
 				
 				//name td
-				var title = (item.host + ":" + "/" + item.name);
-				if(item.path != "/") title = (item.host + ":" + item.path + "/" + item.name);
-				var nameTd = domConstruct.create("td", {innerHTML: item.name, title: title}, tr);
+				var nameTd = domConstruct.create("td", {innerHTML: item.name, title: item.path}, tr);
 				
 				/*
 				//info td
@@ -117,7 +115,7 @@ define([
 					baseClass:"myIconButton",
 					iconClass: "deleteIcon",
 					onClick: function(){
-						_remove(_container, _context, _id, source, item);
+						_remove(_this, item);
 					}
 				});
 				deleteButton.placeAt(deleteTd, "last");
@@ -125,8 +123,8 @@ define([
 				//if the file type is the "deck/folder", there shouuld show two <tr>. 
 				//one of the lays is to showing the words - "Includes xxx files"/"Contains xxx files".
 				if(item.type != "f" && item.type != "file"){
-					var params = {"host": item.host, "path": (item.path + "/" + item.name)};
-					request.post(_context.urlContext + "/doGetIncludeFiles.action?rnd=" + (new Date()).getTime(),{
+					var params = {"fileItem.host": item.host, "fileItem.path": item.path};
+					request.post(_this.context.urlContext + "/doGetIncludeFiles.action?rnd=" + (new Date()).getTime(),{
 							data: params,
 							handleAs: "json",
 						}).then(function(data){
@@ -135,23 +133,21 @@ define([
 							var td_0 = domConstruct.create("td", {}, tr_1);
 
 							//set include files number
-							var includeStr = Platform.messages["pac.dataexplore.submitjobs.contains.label"].replace('_NUM_', data.length);
+							var includeStr = "Contains " + data.length + "files";
 							var td_1 = domConstruct.create("td", {}, tr_1);
 
 							var link = domConstruct.create("a", {innerHTML: includeStr}, td_1);
 							on(link, "click", function(evt){
 								//console.log(params);
-								var dialog = new IncludeFileListDialog(_context, item.host, (item.path + "/" + item.name));
+								var dialog = new IncludeFileListDialog(_this.context, item.host, item.path);
 								dialog.show();
 							});
 
 							var td_2 = domConstruct.create("td", {}, tr_1);
 						}, function(err){
 							// handle an error condition
-							console.log(err);
 						}, function(evt){
 							// handle a progress event
-							//console.log(evt);
 					});
 				}
 				return {node: tr_div, data: item, type: item.type};
@@ -165,15 +161,14 @@ define([
 				copyState: function( keyPressed, self ){return false;}
 			});
 
-			var url = _context.urlContext + "/doGetInputFiles.action?rnd=" + (new Date()).getTime();
+			var url = _this.context.urlContext + "/doGetFileList.action?rnd=" + (new Date()).getTime();
 			request.get(url ,{
-					handleAs: "json",
+				handleAs: "json",
 				}).then(function(data){
-					//console.log(data);
-					if(data != "null") _addFiles(source, _container, _id, _transfer(data));
+					if(data != "null") _addFiles(_this, _transfer(data));
 					
 					//publish success event
-					topic.publish(_container + "@event.inputfiles.load.success", _id, _transfer(data));
+					topic.publish(_this.getEventPrefix() + "@event.inputfiles.load.success", _this.id, _transfer(data));
 				}, function(err){
 					//console.log(err);
 				}, function(evt){
@@ -182,37 +177,37 @@ define([
 			return source;
 		}
 
-		function _add(_container, _context, _id, _source, _file){
-			_addFiles(_source, _container, _id, [_file]);
-
+		function _add(_this, _file){
 			//save the input file into properties file
-			var url = _context.urlContext + "/doAddInputFile.action?rnd=" + (new Date()).getTime();
-			var postData = "inputFile.host=" + _file.host + "&" + "inputFile.type=" + _file.type + "&" + "inputFile.path=" + _file.path + "&" + "inputFile.name=" + _file.name;
-			
+			var url = _this.context.urlContext + "/doAddFileItem.action?rnd=" + (new Date()).getTime();
+			var postData = "fileItem.host=" + _file.host + "&" + "fileItem.type=" + _file.type + "&" + 
+							 "fileItem.path=" + _file.path + "&" + "fileItem.name=" + _file.name + "&" + 
+							 "fileItem.location=" + _file.location;
 			request.post(url, {
 				data : postData
 			}).then(function(data){
 					//publish success event
-					topic.publish(_container + "@event.inputfiles.add.success", _id, _file);
+					_addFiles(_this, [_file]);
+					topic.publish(_this.getEventPrefix() + "@event.inputfiles.add.success", _this.id, _file);
 				}, function(err){
 					//console.log(err);
 				}, function(evt){
 					//console.log(evt);
 			});
 		}
-		function _remove(_container, _context, _id, _source, _file){
-			_source.delItem(_source.deleteSelectedNodes());
-
+		
+		function _remove(_this, _file){
 			//remove the item from properties file
-			var url = _context.urlContext + "/doRemoveInputFile.action?rnd=" + (new Date()).getTime();
-			var postData = "inputFile.host=" + _file.host + "&" + "inputFile.type=" + _file.type + "&" + "inputFile.path=" + _file.path + "&" + "inputFile.name=" + _file.name;
-			
+			var url = _this.context.urlContext + "/doRemoveFileItem.action?rnd=" + (new Date()).getTime();
+			var postData = "fileItem.host=" + _file.host + "&" + "fileItem.type=" + _file.type + "&" + 
+							 "fileItem.path=" + _file.path + "&" + "fileItem.name=" + _file.name + "&" + 
+							 "fileItem.location=" + _file.location;
 			request.post(url, {
 				data : postData
-			}).then(function(data){
+				}).then(function(data){
 					//publish success event
-					//inner event which will be catched by FileTablePanel
-					topic.publish(_container + "@event.inputfiles.remove.success", _id, _file);
+					_this.source.delItem(_this.source.deleteSelectedNodes());
+					topic.publish(_this.getEventPrefix() + "@event.inputfiles.remove.success", _this.id, _file);
 				}, function(err){
 					//console.log(err);
 				}, function(evt){
@@ -220,18 +215,17 @@ define([
 			});
 		}
 
-		function _reload(_container, _context, _id, _source){
-			_source.selectAll();
-			_source.deleteSelectedNodes();
-
-			var url = _context.urlContext + "/doGetInputFiles.action?rnd=" + (new Date()).getTime();
+		function _reload(_this, _source){
+			_this.source.selectAll();
+			_this.source.deleteSelectedNodes();
+			
+			var url = _this.context.urlContext + "/doGetFileList.action?rnd=" + (new Date()).getTime();
 			request.get(url ,{
 					handleAs: "json",
 				}).then(function(data){
-					if(data != "null") _addFiles(_source, _container, _id, _transfer(data));
-
+					if(data != "null") _addFiles(_this, _transfer(data));
 					//publish success event
-					topic.publish(_container + "@event.inputfiles.reload.success", _id, _transfer(data));
+					topic.publish(_this.getEventPrefix() + "@event.inputfiles.reload.success", _this.id, _transfer(data));
 				}, function(err){
 					//console.log(err);
 				}, function(evt){
@@ -245,7 +239,7 @@ define([
 				this.context = _context; this.id = _id;
 			},
 			startup: function() {
-				this.source = createSource(this.container, this.context, this.id);
+				this.source = createSource(this);
 			},
 			isShow: function(){
 				var r = false;
@@ -266,16 +260,16 @@ define([
 				return (this.container);
 			},
 			add: function(_file){
-				_add(this.container, this.context, this.id, this.source, _file);
+				_add(this, _file);
 			},
 			remove: function(_file){
-				_remove(this.container, this.context, this.id, this.source, _file);
+				_remove(this, _file);
 			},
 			reload: function(){
-				_reload(this.container, this.context, this.id, this.source);
+				_reload(this);
 			},
 			addFiles: function(_files){
-				_addFiles(this.source, this.container, this.id, _files);
+				_addFiles(this, _files);
 			},
 			getFiles: function(){
 				return _getFiles(this.source);

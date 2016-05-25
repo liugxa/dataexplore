@@ -4,17 +4,20 @@ import java.util.Date;
 
 public class FileItem{
 	
+	//id = host + location
 	private String id;
 	
-	private String name;
-	
-	// f - file; d - directory; s - symbol link
-	// h - host;
+	// f - file; d - directory; s - symbol link; h - host;
 	private String type;
 	
 	private String host;
 	
 	private String path;
+	
+	private String name;
+	
+	//location = path + name
+	private String location;
 	
 	private String size;
 	
@@ -101,5 +104,13 @@ public class FileItem{
 
 	public void setModifyTime(Date modifyTime) {
 		this.modifyTime = modifyTime;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 }

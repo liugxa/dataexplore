@@ -1,17 +1,16 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html >
 <head>
-	<%@include file="/pac/dataexplore/includes/include-styles.jsp"%>
-	<%@include file="/pac/dataexplore/includes/include-dojo-scripts.jsp"%>
-	<%@include file="/pac/dataexplore/includes/include-scripts.jsp"%>
-	<%@include file="/framework/messages.jsp" %>
+	<c:import url="/dataexplore/includes/include-styles.jsp"/>
+	<c:import url="/dataexplore/includes/include-dojo.jsp"/>
+	<c:import url="/dataexplore/includes/include-scripts.jsp"/>
 </head>
 
 <body class='claro myTheme'>
-
 	<button id="addFileBtn" type="button" >Add File</button>
 	<button id="delFileBtn" type="button" >Delete File</button>
-	<button id="getFilesBtn" type="button" >Get All Files</button>
+	<button id="getFilesBtn" type="button" >Get Files</button>
 
 	<button id="reloadBtn" type="button" >Reload</button>
 	<button id="isShowBtn" type="button">Show/Hidden</button>
@@ -20,12 +19,12 @@
 	<button id="delFilesBtn" type="button" >Delete All Files</button>
 	-->
 
-	<div id="inputFileListPanelContainer">
-		<table id="inputFileListPanelTable"></table>
+	<div id="fileListPanelContainer">
+		<table id="fileListPanelTable"></table>
 	</div>
 
 	<style type="text/css">
-		#inputFileListPanelContainer{
+		#fileListPanelContainer{
 			width: 400px;
 			height: 300px;
 			overflow: auto;
@@ -35,14 +34,14 @@
 	<script>
 		require([
 			"dijit/form/Button",
-			"dataexplore/InputFileListPanel",
+			"dataexplore/FileListPanel",
 			"dojo/dom",
 			"dojo/topic",
 			"paccommon/request",
 			"dojo/domReady!"
 		],
-		function(Button, InputFileListPanel, dom, topic, request){
-			var urlContext = "<c:url value='/pac/dataexplore'/>";
+		function(Button, FileListPanel, dom, topic, request){
+			var urlContext = "<c:url value='/dataexplore'/>";
 			
 			request.get(urlContext + "/doGetDataExploreContext.action?rnd=" + (new Date()).getTime(),{
 				handleAs: "json",
@@ -55,8 +54,8 @@
 			});
 
 			function main(context){
-				var inputFileListPanel = new InputFileListPanel("inputFileListPanelTable", context);
-				inputFileListPanel.startup();
+				var fileListPanel = new FileListPanel("fileListPanelTable", context, "fileList");
+				fileListPanel.startup();
 
 				var files = [
 					//another LSF server host
@@ -82,22 +81,25 @@
 				];
 				
 				//add/remove/get single file
-				var file = {name: "License.txt", type: "f", host: "xa8603", path: "/home/gliu/backup/application/generic"};
+				
 				var addFileBtn = new Button({
 					onClick: function(){
-						inputFileListPanel.add(file);
+						var file = {host: "xa8603", path: "c:\\applicatio\\generic", name: "License.txt", location: "c:\\applicatio\\generic\\license.txt", type: "f"};
+						fileListPanel.add(file);
+						
 					}
 				}, "addFileBtn");
 
 				var delFileBtn = new Button({
 					onClick: function(){
-						inputFileListPanel.remove(file);
+						var file = {host: "xa8603", path: "c:\\applicatio\\generic", name: "License.txt", location: "c:\\applicatio\\generic\\license.txt", type: "f"};
+						fileListPanel.remove(file);
 					}
 				}, "delFileBtn");
 
 				var reloadBtn = new Button({
 					onClick: function(){
-						inputFileListPanel.reload();
+						fileListPanel.reload();
 					}
 				}, "reloadBtn");
 
@@ -105,19 +107,19 @@
 				/*
 				var addFilesBtn = new Button({
 					onClick: function(){
-						inputFileListPanel.addFiles(files);
+						fileListPanel.addFiles(files);
 					}
 				}, "addFilesBtn");
 
 				var delFilesBtn = new Button({
 					onClick: function(){
-						inputFileListPanel.deleteAll();
+						fileListPanel.deleteAll();
 					}
 				}, "delFilesBtn");
 				*/
 				var getFilesBtn = new Button({
 					onClick: function(){
-						var r = inputFileListPanel.getFiles();
+						var r = fileListPanel.getFiles();
 						console.log("get all of the files");
 						console.log(r);
 					}
@@ -125,27 +127,24 @@
 
 				var isShowBtn = new Button({
 					onClick: function(){
-						if(inputFileListPanel.isShow() == true){
-							inputFileListPanel.hidden();
+						if(fileListPanel.isShow() == true){
+							fileListPanel.hidden();
 						}else{
-							inputFileListPanel.show();
+							fileListPanel.show();
 						}
 					}
 				}, "isShowBtn");
 
-				topic.subscribe(inputFileListPanel.getEventPrefix() + "@event.inputfiles.add.success", function (_file){
+				topic.subscribe(fileListPanel.getEventPrefix() + "@event.inputfiles.add.success", function(id, file){
 					console.log("get the event.inputfiles.add.success!");
-					console.log(_file);
 				});
 				
-				topic.subscribe(inputFileListPanel.getEventPrefix() + "@event.inputfiles.remove.success", function (_file){
+				topic.subscribe(fileListPanel.getEventPrefix() + "@event.inputfiles.remove.success", function(id, file){
 					console.log("get the event.inputfiles.remove.success!");
-					console.log(_file);
 				});
 
-				topic.subscribe(inputFileListPanel.getEventPrefix() + "@event.inputfiles.reload.success", function (_files){
+				topic.subscribe(fileListPanel.getEventPrefix() + "@event.inputfiles.reload.success", function(id, files){
 					console.log("get the event.inputfiles.reload.success!");
-					console.log(_files);
 				});
 			};
 		});

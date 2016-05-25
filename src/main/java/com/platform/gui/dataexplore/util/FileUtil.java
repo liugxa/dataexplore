@@ -2,9 +2,6 @@ package com.platform.gui.dataexplore.util;
 
 import java.io.File;
 import java.net.InetAddress;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.attribute.FileOwnerAttributeView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,23 +13,23 @@ import com.platform.gui.dataexplore.model.FileItem;
 
 public class FileUtil {
 	
-	public static List<FileItem> findItems(String host, String path) throws Exception{
+	public static List<FileItem> findItems(String host, String location) throws Exception{
 		List<FileItem> r = new ArrayList<FileItem>();
 		
 		if(isOSWindows() == true){
 			//list all of the drivers
-			if(path != null && path.equals("/")){
-				r = getDrivers(host, path);
+			if(location != null && location.equals("/")){
+				r = getDrivers(host, location);
 			}else{
-				r = getFiles(host, path);
+				r = getFiles(host, location);
 			}
 		}else{
-			r = getFiles(host, path);
+			r = getFiles(host, location);
 		}
 		return r;
 	}
 	
-	public static List<FileItem> getDrivers(String host, String path) throws Exception{
+	public static List<FileItem> getDrivers(String host, String location) throws Exception{
 		List<FileItem> r = new ArrayList<FileItem>();
 		String localHost = getLocalHostName();
 		File[] drivers = getFileDrivers();
@@ -46,9 +43,9 @@ public class FileUtil {
 		return r;
 	}
 	
-	public static List<FileItem> getFiles(String host, String path){
+	public static List<FileItem> getFiles(String host, String location){
 		List<FileItem> r = new ArrayList<FileItem>();
-		File file = new File(path);
+		File file = new File(location);
 		File[] subFiles = file.listFiles();
 		if(subFiles != null){
 			for(int i=0;i<subFiles.length;i++){
@@ -58,7 +55,8 @@ public class FileUtil {
 				item.setId(host + ":" + f.getAbsolutePath());
 				item.setName(f.getName());
 				item.setHost(host);
-				item.setPath(f.getAbsolutePath());
+				item.setPath(f.getPath());
+				item.setLocation(f.getAbsolutePath());
 				item.setModifyTime(new Date(f.lastModified()));
 				
 				//set the file type
@@ -71,8 +69,8 @@ public class FileUtil {
 				
 				//set the file owner
 				try{
-					FileOwnerAttributeView view = Files.getFileAttributeView(Paths.get(path), FileOwnerAttributeView.class);
-					item.setOwner(view.getOwner().getName());
+					//FileOwnerAttributeView view = Files.getFileAttributeView(Paths.get(location), FileOwnerAttributeView.class);
+					//item.setOwner(view.getOwner().getName());
 				}catch(Exception e){
 					//can not get the file owner on this platform 
 				}
@@ -113,10 +111,11 @@ public class FileUtil {
 	}
 	
 	public static void main(String[] args) throws Exception{
+		try{
 		String localHost = getLocalHostName();
 		System.out.println(localHost);
 		
-		List<FileItem> items = FileUtil.findItems("localhost", "c:\\workspace\\dataexplore");
+		List<FileItem> items = FileUtil.findItems("localhost", "C:\\workspace\\dataexplore");
 		System.out.println(items);
 		
 		// returns pathnames for files and directory
@@ -129,6 +128,9 @@ public class FileUtil {
 			
 			//FileSystemView fsv = FileSystemView.getFileSystemView();
 			//System.out.println("Description: "+ fsv.getSystemTypeDescription(path));
+		}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 }

@@ -57,19 +57,15 @@
 			</result>
 		</action>
 		
-		<!-- InputFilesAction: input file actions -->
-		<action name="doGetInputFile" class="com.platform.gui.dataexplore.action.InputFilesAction" method="doGetInputFile">
-			<result type="json">
-				<param name="root">inputFile</param>
-			</result>
-		</action>
-		<action name="doGetInputFiles" class="com.platform.gui.dataexplore.action.InputFilesAction" method="doGetInputFiles">
+		
+		<!-- FileListAction: file list actions -->
+		<action name="doGetFileList" class="com.platform.gui.dataexplore.action.FileListAction" method="doGetFileList">
 			<result type="json" name="success">
-				<param name="root">inputFiles</param>
+				<param name="root">fileItems</param>
 			</result>
 		</action>
-		<action name="doAddInputFile" class="com.platform.gui.dataexplore.action.InputFilesAction" method="doAddInputFile"/>
-		<action name="doRemoveInputFile" class="com.platform.gui.dataexplore.action.InputFilesAction" method="doRemoveInputFile"/>
+		<action name="doAddFileItem" class="com.platform.gui.dataexplore.action.FileListAction" method="doAddFileItem"/>
+		<action name="doRemoveFileItem" class="com.platform.gui.dataexplore.action.FileListAction" method="doRemoveFileItem"/>
 		
 		
 	</package>
