@@ -11,7 +11,7 @@
 		<li>* Favorite Tree <a href="${pageContext.request.contextPath}/dataexplore/favorite_tree.jsp">click</a></li>
 		<li>* File Table (Gridx) <a href="${pageContext.request.contextPath}/dataexplore/file_table.jsp">click</a></li>
 		<li>* File List with DnD (Dojo drag and drop) <a href="${pageContext.request.contextPath}/dataexplore/file_list.jsp">click</a></li>
-		<li>* Drag Drop File <a href="${pageContext.request.contextPath}/dataexplore/file_dnd.jsp">click</a></li>
+		<li>* Upload File with DnD (Dojo drag and drop) <a href="${pageContext.request.contextPath}/dataexplore/file_upload.jsp">click</a></li>
 	</ol>
 </body>
 </html>
